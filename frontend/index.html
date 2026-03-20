@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chẩn đoán ung thư vú - YOLO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <nav class="topbar">
+      <div class="logo">Breast AI</div>
+      <div class="links">
+        <a href="#home" data-section="home">Trang chủ</a>
+        <a href="#diagnose" data-section="diagnose">Chẩn đoán</a>
+        <a href="#model" data-section="model">Giới thiệu mô hình</a>
+        <a href="#auth" data-section="auth" id="navAuthLink">Đăng nhập</a>
+      </div>
+    </nav>
+
+    <header class="hero section" id="home">
+      <div>
+        <p class="eyebrow">Breast Imaging AI</p>
+        <h1>Hệ thống hỗ trợ chẩn đoán ung thư vú</h1>
+        <p class="lede">Nhận diện vùng nghi ngờ trên ảnh X-quang/siêu âm trong vài giây, tăng tốc quyết định lâm sàng và giữ an toàn dữ liệu bệnh nhân.</p>
+        <div class="hero-actions">
+          <button class="btn primary" data-go="diagnose">Bắt đầu chẩn đoán</button>
+          <button class="btn ghost" data-go="model">Tìm hiểu mô hình</button>
+        </div>
+        <div class="highlights">
+          <div class="pill pill-unet">U-Net segmentation</div>
+          <div class="pill">YOLOv8 fine-tune</div>
+          <div class="pill">Ẩn danh dữ liệu</div>
+          <div class="pill">Canvas overlay</div>
+          <div class="pill">Log MongoDB (tùy chọn)</div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-value">3 bước</div>
+          <div class="stat-label">Tải ảnh · Suy luận · Xem box</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">640 px</div>
+          <div class="stat-label">Kích thước suy luận tối ưu</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">YOLOv8</div>
+          <div class="stat-label">Kiến trúc phát hiện thời gian thực</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">U-Net</div>
+          <div class="stat-label">Phân đoạn & mask hỗ trợ chẩn đoán</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section auth-panel" id="auth">
+      <div class="auth-card">
+        <div class="auth-header">
+          <p class="label">Truy cập API</p>
+          <h2 id="authTitle">Đăng nhập</h2>
+          <div id="authStatus" class="muted small"></div>
+        </div>
+
+        <div class="field">
+          <label for="authUser">Username</label>
+          <input id="authUser" placeholder="admin" />
+        </div>
+        <div class="field">
+          <label for="authPass">Password</label>
+          <div class="pass-row">
+            <input id="authPass" type="password" placeholder="••••••" />
+            <button id="togglePass" class="btn ghost sm" type="button">Hiện</button>
+          </div>
+        </div>
+
+        <div class="actions-row auth-actions">
+          <button id="loginBtn" class="btn primary">Đăng nhập</button>
+          <button id="logoutBtn" class="btn ghost">Đăng xuất</button>
+        </div>
+
+      </div>
+
+      <div class="auth-card admin-card section-hidden" id="adminDoctorCard">
+        <div class="auth-header">
+          <p class="label">Tài khoản bác sĩ</p>
+          <h2>Tạo tài khoản bác sĩ</h2>
+          <p class="small muted">Chỉ admin mới tạo được tài khoản bác sĩ.</p>
+        </div>
+        <div class="field">
+          <label for="doctorUser">Tên đăng nhập bác sĩ</label>
+          <input id="doctorUser" placeholder="doctor01" />
+        </div>
+        <div class="field">
+          <label for="doctorPass">Mật khẩu tạm thời</label>
+          <input id="doctorPass" type="password" placeholder="Tối thiểu 6 ký tự" />
+        </div>
+        <div class="actions-row auth-actions">
+          <button id="createDoctorBtn" class="btn primary">Tạo tài khoản bác sĩ</button>
+        </div>
+        <div id="adminDoctorStatus" class="muted small"></div>
+      </div>
+    </section>
+
+    <section class="panel section info" id="home-info">
+      <div class="panel-header">
+        <div>
+          <p class="label">2 · Thông tin chính</p>
+          <h2>Thiết kế cho môi trường y khoa</h2>
+          <p class="small">Quy trình rõ ràng, bảo vệ quyền riêng tư và trình bày kết quả trực quan.</p>
+        </div>
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-title">Quy trình 3 bước</div>
+          <p class="info-text">Nhập thông tin bệnh nhân, tải ảnh X-quang/siêu âm, xem hộp phát hiện và chỉ số tin cậy.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-title">An toàn dữ liệu</div>
+          <p class="info-text">File lưu tạm và xóa sau suy luận; log ẩn danh vào MongoDB chỉ khi được cấu hình.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-title">Trình bày kết quả</div>
+          <p class="info-text">Overlay trực quan trên ảnh, danh sách box với toạ độ và độ tin cậy để đối chiếu lâm sàng.</p>
+        </div>
+      </div>
+    </section>
+
+    <main class="grid section" id="diagnose">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="label">1 · Tải ảnh</p>
+            <h2>Chọn file DICOM/JPG/PNG</h2>
+
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="patientName">Tên bệnh nhân</label>
+            <input id="patientName" name="patient_name" placeholder="VD: Nguyen Van A" />
+          </div>
+          <div class="field">
+            <label for="patientAge">Tuổi</label>
+            <input id="patientAge" name="patient_age" type="number" min="0" max="120" placeholder="VD: 42" />
+          </div>
+          <div class="field">
+            <label for="patientId">Mã hồ sơ</label>
+            <input id="patientId" name="patient_id" placeholder="VD: BN-2024-001" />
+          </div>
+          <div class="field">
+            <label for="patientGender">Giới tính</label>
+            <select id="patientGender" name="patient_gender">
+              <option value="" selected>Chọn</option>
+              <option value="female">Nữ</option>
+              <option value="male">Nam</option>
+              <option value="other">Khác</option>
+            </select>
+          </div>
+        </div>
+        <form id="uploadForm" class="dropzone">
+          <input type="file" id="fileInput" name="file" accept="image/*" hidden />
+          <p>Kéo thả hoặc bấm để tải ảnh</p>
+          <p class="hint">Hỗ trợ JPG, PNG, BMP</p>
+        </form>
+        <div class="actions-row">
+          <button id="diagnoseBtn" class="btn primary" disabled>Chẩn đoán</button>
+        </div>
+        <div id="progress" class="progress" hidden>
+          <div class="bar"></div>
+          <span id="progressLabel">Đang tải...</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="label">2 · Kết quả</p>
+            <h2>Hộp phát hiện</h2>
+          </div>
+          <div id="meta" class="meta"></div>
+        </div>
+        <div id="diagnosis" class="diagnosis"></div>
+        <div class="summary">
+          <div class="summary-header">
+            <h3>Kết luận &amp; Lời khuyên</h3>
+            <button id="exportPdfBtn" class="btn ghost sm" type="button">Xuất PDF</button>
+          </div>
+          <div class="summary-card">
+            <div class="summary-title">Kết luận</div>
+            <p id="conclusion" class="summary-text">Chưa có kết quả.</p>
+          </div>
+          <div class="summary-card">
+            <div class="summary-title">Lời khuyên</div>
+            <p id="advice" class="summary-text">Hãy chạy chẩn đoán để nhận khuyến nghị.</p>
+          </div>
+        </div>
+        <div class="preview" id="previewArea">
+          <img id="previewImg" alt="X-ray preview" />
+          <canvas id="overlay" aria-label="Bounding boxes"></canvas>
+        </div>
+        <div id="boxes" class="boxes"></div>
+      </section>
+    </main>
+
+    <section class="panel model section" id="model">
+      <div class="panel-header">
+        <div>
+          <p class="label">3 · Giới thiệu mô hình</p>
+          <h2>YOLOv8 &amp; U-Net cho chẩn đoán ung thư vú</h2>
+          <p class="small">YOLOv8 khoanh vùng nhanh, U-Net phân đoạn tổn thương để quan sát rõ hơn.</p>
+        </div>
+      </div>
+      <div class="model-grid">
+        <div class="model-card">
+          <span class="chip">Detector</span>
+          <h3>YOLOv8</h3>
+          <ul>
+            <li>Kiến trúc: YOLOv8, imgsz 640</li>
+            <li>Trọng số: ai_model/best.pt</li>
+            <li>Đầu ra: bounding box, class, confidence</li>
+          </ul>
+        </div>
+        <div class="model-card">
+          <span class="chip chip-alt">Segmentation</span>
+          <h3>U-Net</h3>
+          <ul>
+            <li>Encoder: ResNet34 (ImageNet)</li>
+            <li>Trọng số: ai_model/unet_breast.pth</li>
+            <li>Đầu ra: mask nhị phân vùng nghi ngờ</li>
+          </ul>
+        </div>
+      </div>
+      <p class="small muted">Tùy chọn log kết quả vào MongoDB (ẩn danh) nếu cấu hình.</p>
+    </section>
+  </div>
+  <script src="/static/app.js"></script>
+
+</body>
+</html>

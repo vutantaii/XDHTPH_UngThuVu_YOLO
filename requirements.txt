@@ -1,0 +1,6 @@
+-r ai_model/requirements.txt
+flask==3.0.3
+python-dotenv==1.0.1
+pymongo==4.7.2
+werkzeug==3.0.3
+gunicorn==23.0.0
