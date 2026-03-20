@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['001131', '001970']
+
+roboflow:
+  workspace: abc-jebjf
+  project: thyroid-ultrasound-va7qd-hoig0
+  version: 1
+  license: CC BY 4.0
+  url: https://app.roboflow.com/abc-jebjf/thyroid-ultrasound-va7qd-hoig0/1
