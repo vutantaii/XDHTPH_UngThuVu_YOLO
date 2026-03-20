@@ -1,3 +1,13 @@
+---
+title: Breast AI YOLO
+emoji: "🩺"
+colorFrom: blue
+colorTo: pink
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # HỆ THỐNG HỖ TRỢ CHẨN ĐOÁN UNG THƯ VÚ
 SPA tĩnh (HTML/CSS/JS) gọi Node/Express; backend spawn Python CLI để suy luận YOLOv8 (phát hiện) + U-Net (phân đoạn/heuristic diagnosis).
 
