@@ -7,7 +7,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # Install Python deps (YOLO/UNet)
-COPY requirements.txt ai_model/requirements.txt ./
+COPY requirements.txt ./requirements.txt
+COPY ai_model/requirements.txt ./ai_model/requirements.txt
 RUN python3 -m pip install --no-cache-dir --upgrade pip \
     && python3 -m pip install --no-cache-dir -r requirements.txt -r ai_model/requirements.txt
 
