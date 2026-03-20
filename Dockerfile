@@ -1,15 +1,10 @@
-FROM node:18-bookworm-slim
+FROM nikolaik/python-nodejs:python3.10-nodejs18-slim
 
-# Python + OpenCV runtime
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
 
 WORKDIR /app
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3 python3-pip python3-venv libgl1 libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
 
 # Install Python deps (YOLO/UNet)
 COPY requirements.txt ai_model/requirements.txt ./
