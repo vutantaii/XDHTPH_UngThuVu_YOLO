@@ -6,6 +6,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
+# Runtime libraries needed by OpenCV/Ultralytics
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install Python deps (YOLO/UNet)
 COPY requirements.txt ./requirements.txt
 COPY ai_model/requirements.txt ./ai_model/requirements.txt
