@@ -18,15 +18,19 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip \
     && python3 -m pip install --no-cache-dir -r requirements.txt -r ai_model/requirements.txt
 
 # Install Node deps (backend + frontend serve)
-COPY package.json ./
-RUN npm install --omit=dev
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
 
 # Copy the rest, including weights and frontend assets
 COPY . .
 
 # Hugging Face Spaces sets $PORT (usually 7860); Node server reads it
 ENV PORT=7860 \
-    PYTHON_BIN=python3
+    PYTHON_BIN=python3 \
+    AUTH_REQUIRED=false \
+    MONGO_URI=mongodb://mongo:27017/breast_ai \
+    MONGO_DB=breast_ai \
+    MONGO_DOCTOR_COLLECTION=doctors
 
 EXPOSE 7860
 

@@ -71,6 +71,34 @@ Hệ thống web hỗ trợ chẩn đoán ung thư vú, giao diện tĩnh (HTML/
 - Máy Windows: bật venv `Scripts\activate`; macOS/Linux: `source .venv/bin/activate`.
 - RAM GPU không bắt buộc (mặc định chạy CPU); có GPU CUDA sẽ nhanh hơn nếu môi trường phù hợp.
 
+## Chạy nhanh bằng Docker (không cần cài Node/Python/Mongo)
+Chỉ cần cài Docker Desktop, sau đó chạy:
+
+```bash
+docker compose up --build
+```
+
+Sau khi container chạy xong:
+- Ứng dụng: `http://localhost:7860`
+- API health: `http://localhost:7860/api/health`
+- MongoDB nội bộ: `mongodb://localhost:27017` (được tạo tự động bởi `docker-compose.yml`)
+
+Dừng hệ thống:
+
+```bash
+docker compose down
+```
+
+Xóa luôn dữ liệu Mongo volume:
+
+```bash
+docker compose down -v
+```
+
+Ghi chú:
+- Mặc định `docker-compose.yml` đang để `AUTH_REQUIRED=false` để người dùng dùng thử ngay.
+- Nếu muốn bật đăng nhập, sửa `AUTH_REQUIRED=true` trong `docker-compose.yml` và đặt `ADMIN_USER`, `ADMIN_PASSWORD`.
+
 ## Cài đặt nhanh (Windows)
 ```powershell
 # 1) Node

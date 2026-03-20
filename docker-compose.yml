@@ -1,0 +1,32 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: breast-ai-app
+    ports:
+      - "7860:7860"
+    environment:
+      PORT: 7860
+      PYTHON_BIN: python3
+      WEIGHTS_PATH: /app/ai_model/best.pt
+      UNET_PATH: /app/ai_model/unet_breast.pth
+      AUTH_REQUIRED: "false"
+      MONGO_URI: mongodb://mongo:27017/breast_ai
+      MONGO_DB: breast_ai
+      MONGO_DOCTOR_COLLECTION: doctors
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    container_name: breast-ai-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
