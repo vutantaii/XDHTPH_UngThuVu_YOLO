@@ -180,3 +180,5 @@ Kết quả in JSON ra stdout.
 ## Phát triển
 - Chạy hot-reload Node: `npm run dev` (yêu cầu `npx nodemon`).
 - Tùy chỉnh giao diện trực tiếp trong [frontend/styles.css](frontend/styles.css) và [frontend/app.js](frontend/app.js).
+Link Dataset: https://app.roboflow.com/abc-jebjf/thyroid-ultrasound-va7qd-hoig0/browse?queryText=&pageSize=50&startingIndex=0&browseQuery=true
+              https://www.kaggle.com/code/utkarshsaxenadn/breast-ultrasound-image-segmentation-deeplabv3?select=Dataset_BUSI_with_GT
